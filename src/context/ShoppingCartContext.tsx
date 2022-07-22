@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react"
-
+import { ShoppingCart } from "../components/ShoppingCart"
+import { useLocalStorage } from "../hooks/useLocalStorage"
 /*
 There are four steps to using React context:
 Create context using the createContext method.
@@ -51,9 +52,19 @@ export function ShoppingCartProvider({ children }:
     ShoppingCartProviderProps) {
         
         //ts with a hook
-        const [cartItems, setCartItems] = useState<CartItem[]>([])
+        const [cartItems, setCartItems] = useLocalStorage<CartItem[]>("shopping-cart", [])
+        const [isOpen, setIsOpen] = useState(false);
         
+        const openCart =() => setIsOpen(true);
+
+        const closeCart =() => setIsOpen(false);
+
+        const cartQuantity = cartItems.reduce(
+          (quantity, item) => item.quantity + quantity,
+          0
+        )
         //Get item -> Add to Cart button?
+        
         function getItemQuantity(id: number) {
           return cartItems.find(item => item.id === id)?.quantity || 0
         }
@@ -112,9 +123,14 @@ export function ShoppingCartProvider({ children }:
             getItemQuantity,
             increaseCartQuantity,
             decreaseCartQuantity,
-            removeFromCart
+            removeFromCart,
+            cartQuantity,
+            cartItems,
+            openCart,
+            closeCart,
         }}>
             {children}
+            <ShoppingCart isOpen={isOpen}/>
         </ShoppingCartContext.Provider>
     )
 }
