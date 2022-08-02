@@ -23,31 +23,39 @@ interface Product {
 
 // export function Store({getData}: StoreProps)  {
 export function Store()  {
-  const [product, setProduct] = useState([])
+  const [products, setProducts] = useState([])
   const url: string = "https://fakestoreapi.com/products/";
 
-  function getData<T>(url): Promise<T> {
+  function getData<T>(url:string): Promise<T> {
     return fetch(url)
     .then(response => {
       return response.json<T>()
     })
-    .then()
   }
-  getData<Product>(url) 
-  .then((item) => {{
-    let fetchedData: Product = item;
-    console.log('generic data!',fetchedData)
-  }})
 
+  useEffect(() => {
+    getData<Product>(url) 
+    .then((item) => {{
+      let fetchedData: Product = item;
+      setProducts(fetchedData)
+    }}) 
+  }, [])
     return(
       <>
         <h1>Store</h1>
         <Row md={2} xs={1} lg={3} className="g-3">
-          {storeItems.map(item => (
+          {/* {storeItems.map(item => (
             <Col key={item.id}>
               <StoreItem {...item} />
             </Col> 
-          ))}
+          ))} */}
+          {products.map((product) => {
+            return(
+              <Col key={product.id}>
+              <StoreItem {...product} />
+            </Col> 
+              )
+          })}
         </Row>
       </> 
 )
