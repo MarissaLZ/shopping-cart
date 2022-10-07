@@ -1,18 +1,22 @@
 import { useShoppingCart } from "../context/ShoppingCartContext"
-import storeItems from "../data/items.json"
+// import storeItem from "../data/items.json"
 import { Stack, Button } from "react-bootstrap"
 import { formatCurrency } from "../utilities/formatCurrency"
 
 type CartItemProps = {
   id: number
   quantity: number
+  [storeItems: string]: any
 }
 
-export function CartItem({ id, quantity }: CartItemProps) {
+
+export function CartItem({ id, quantity, storeItems }: CartItemProps) {
   const { removeFromCart } = useShoppingCart()
-  const item = storeItems.find(i => i.id === id)
+  let i = object: any;
+  const item = storeItems.find(i: object  => i.id === id)
+  console.log('item find',item)
   if(item == null) return null
-  
+
   return(
     <Stack direction="horizontal" gap={2} className="d-flex
     align-items-center">
