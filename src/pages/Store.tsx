@@ -2,6 +2,7 @@ import storeItems from "../data/items.json"
 import { Col, Row } from "react-bootstrap"
 import { StoreItem } from '../components/StoreItem'
 import React, { useEffect, useState } from 'react'
+import { CartItem } from "../components/CartItem"
 // import {getData} from "./storeAPI"
 
 //Product type interface to handle fetched data
@@ -57,6 +58,7 @@ export function Store()  {
               )
           })}
         </Row>
+        <CartItem storeItems={products}/>
       </> 
 )
 }
